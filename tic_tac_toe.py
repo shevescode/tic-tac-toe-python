@@ -1,12 +1,20 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
-    board = []
+    board = [ 
+        [ '.','.','.' ],
+        [ '.','.','.' ],
+        [ '.','.','.' ] ]
     return board
 
-
 def get_move(board, player):
+    # started but not finished, ask for user input and returs
     """Returns the coordinates of a valid move for player on board."""
-    row, col = 0, 0
+    print('What is your next move?')
+    user_move = list(input())
+    row = user_move[0]
+    col = user_move[1]
+    # print(row)
+    # print(col)
     return row, col
 
 
@@ -33,7 +41,12 @@ def is_full(board):
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
-    pass
+    print("\n    1   2   3 \n")
+    print("A   " + board[0][0] + " | " + board[0][1] + " | " + board[0][2])
+    print("   ---+---+---")
+    print("B   " + board[1][0] + " | " + board[1][1] + " | " + board[1][2])
+    print("   ---+---+---")
+    print("C   " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + "\n")
 
 
 def print_result(winner):
