@@ -7,15 +7,35 @@ def init_board():
     return board
 
 def get_move(board, player):
-    # started but not finished, ask for user input and returs
+    # ask for user input and returs as 2 integers
     """Returns the coordinates of a valid move for player on board."""
-    print('What is your next move?')
-    user_move = list(input())
-    row = user_move[0]
-    col = user_move[1]
-    # print(row)
-    # print(col)
-    return row, col
+    board = init_board()
+    while True:
+        print('What is your next move?')
+        user_move = list(input())
+        row = user_move[0]
+        col = user_move[1]
+        if row == "A":
+            row = 0
+        elif row == "B":
+            row = 1
+        elif row == "C":
+            row = 2
+        else:
+            print('Please provide valid coordinates!')
+            continue
+        if col == "1":
+            col = 0
+        elif col == "2":
+            col = 1
+        elif col == "3":
+            col = 2
+        else:
+            print('Please provide valid coordinates!')
+            continue
+        print(row)
+        print(col)
+        return row, col
 
 
 def get_ai_move(board, player):
