@@ -6,11 +6,13 @@ def init_board():
         [ '.','.','.' ] ]
     return board
 
+BOARD = init_board()
+
 def get_move(board, player):
     # ask for user input and returs as 2 integers
     """Returns the coordinates of a valid move for player on board."""
-    board = init_board()
-    while True:
+    board = BOARD
+    while player == 1:
         print('What is your next move?')
         user_move = list(input())
         row = user_move[0]
@@ -35,7 +37,11 @@ def get_move(board, player):
             continue
         print(row)
         print(col)
-        return row, col
+        if board[row][col] == ".":
+            return row, col
+        else:
+            print('Please provide valid coordinates!')
+            continue
 
 
 def get_ai_move(board, player):
@@ -46,7 +52,16 @@ def get_ai_move(board, player):
 
 def mark(board, player, row, col):
     """Marks the element at row & col on the board for player."""
-    pass
+    global BOARD
+    board = BOARD
+    if player == 1:
+        if board[row][col] == ".":
+            board[row][col] = "X"
+
+    if player == 2:
+        if board[row][col] == ".":
+            board[row][col] = "O"
+    return board
 
 
 def has_won(board, player):
@@ -61,7 +76,7 @@ def is_full(board):
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
-    print("\n    1   2   3 \n")
+    print("\n    1   2   3")
     print("A   " + board[0][0] + " | " + board[0][1] + " | " + board[0][2])
     print("   ---+---+---")
     print("B   " + board[1][0] + " | " + board[1][1] + " | " + board[1][2])
@@ -75,15 +90,16 @@ def print_result(winner):
 
 
 def tictactoe_game(mode='HUMAN-HUMAN'):
-    board = init_board()
-
-    # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+    global BOARD
+    board = BOARD
     print_board(board)
-    row, col = get_move(board, 1)
-    mark(board, 1, row, col)
-
-    winner = 0
-    print_result(winner)
+    # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+    while True:
+        row, col = get_move(board, 1)
+        mark(board, 1, row, col)
+        print_board(board)
+        winner = 0
+        print_result(winner)
 
 
 def main_menu():
