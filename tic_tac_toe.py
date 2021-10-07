@@ -12,7 +12,7 @@ def get_move(board, player):
     # ask for user input and returs as 2 integers
     """Returns the coordinates of a valid move for player on board."""
     board = BOARD
-    while player == 1:
+    while True:
         print('What is your next move?')
         user_move = list(input())
         row = user_move[0]
@@ -93,13 +93,18 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     global BOARD
     board = BOARD
     print_board(board)
+    player = 1
     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
     while True:
-        row, col = get_move(board, 1)
-        mark(board, 1, row, col)
+        row, col = get_move(board, player)
+        mark(board, player, row, col)
         print_board(board)
         winner = 0
         print_result(winner)
+        if player == 1:
+            player += 1
+        else:
+            player -= 1
 
 
 def main_menu():
