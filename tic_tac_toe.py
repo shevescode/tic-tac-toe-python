@@ -35,8 +35,6 @@ def get_move(board, player):
         else:
             print('Please provide valid coordinates!')
             continue
-        print(row)
-        print(col)
         if board[row][col] == ".":
             return row, col
         else:
