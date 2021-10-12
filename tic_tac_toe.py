@@ -10,19 +10,12 @@ def get_move(board):
         row = user_move[0]
         col = user_move[1]
         rows = ["A","B","C"]
+        cols = ["1","2","3"]
         if user_move == 'quit':
             exit()
-        if row in rows:
+        if row in rows and col in cols:
             row = rows.index(row)
-        else:
-            print('Please provide valid coordinates!')
-            continue
-        if col == "1":
-            col = 0
-        elif col == "2":
-            col = 1
-        elif col == "3":
-            col = 2
+            col = cols.index(col)
         else:
             print('Please provide valid coordinates!')
             continue
@@ -36,13 +29,17 @@ def get_move(board):
 def get_ai_move(board):
     """Returns the coordinates of a valid move for player on board."""
     row, col = 0, 0
-    while True:
-        row = random.randint(0, 2)
-        col = random.randint(0, 2)
-        if board[row][col] == ".":
-            return row, col
-        else:
-            continue
+    if board[1][1] == ".":
+        row, col = 1, 1
+        return row, col
+    else:
+        while True:
+            row = random.randint(0, 2)
+            col = random.randint(0, 2)
+            if board[row][col] == ".":
+                return row, col
+            else:
+                continue
 
 
 
@@ -55,7 +52,7 @@ def mark(board, player, row, col):
 
 def has_won(board, player):
     """Returns True if player has won the game."""
-    # horizontal check
+    
     vertical_check = [
         [board[0][0], board[1][0], board[2][0]],
         [board[0][0], board[1][0], board[2][0]],
@@ -64,6 +61,8 @@ def has_won(board, player):
     diagonal_check = [
         [board[0][0], board[1][1], board[2][2]],
         [board[0][2], board[1][1], board[2][0]]]
+
+    # horizontal check
 
     for row in board:
         has_row_won = True
@@ -146,11 +145,10 @@ def tictactoe_game_ai():
         [ '.','.','.' ],
         [ '.','.','.' ],
         [ '.','.','.' ] ]
-    print_board(board)
     player = "X"
     while True:
         if player == "X":
-            row, col = get_move(board)
+            row, col = get_ai_move(board)
             mark(board, player, row, col)
             print_board(board)
             winner = player
@@ -160,8 +158,9 @@ def tictactoe_game_ai():
             return print("No winner! It is a tie!")
         player = "O"
 
+
         if player == "O":
-            row, col = get_ai_move(board)
+            row, col = get_move(board)
             mark(board, player, row, col)
             print_board(board)
             winner = player
@@ -170,6 +169,8 @@ def tictactoe_game_ai():
         if is_full(board):
             return print("No winner! It is a tie!")
         player = "X"
+
+
 
 def main_menu():
     if len(sys.argv) > 1 and sys.argv[1] == "HUMAN-AI":
