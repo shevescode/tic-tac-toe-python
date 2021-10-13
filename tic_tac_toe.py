@@ -42,6 +42,26 @@ def get_ai_move(board):
                 continue
 
 
+def scan_row(player_sign, enemy_sign, row):
+    count = 0
+    empty_field_index = None
+    for i in range(len(row)):
+        field = row[i]
+        if field == player_sign:
+            count += 1
+        elif field == enemy_sign:
+            return None
+        else:
+            empty_field_index = i
+    if count == 2:
+        return empty_field_index
+    else:
+        return None
+# scan for winning chance for O
+print(scan_row("O", "X", ["O","O","."]))
+
+print(scan_row("X", "O", ["O","O","."]))
+
 
 def mark(board, player, row, col):
     """Marks the element at row & col on the board for player."""
