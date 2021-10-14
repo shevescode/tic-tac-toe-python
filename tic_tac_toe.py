@@ -41,8 +41,8 @@ def scan_for_best_move(board, player_sign, enemy_sign):
         [board[0][2], board[1][2], board[2][2]]]
 
     diagonal_check = [
-        [board[0][0], board[1][1], board[2][2]],    # FIRST INEGER WRONG 0,0 0,1 0,2
-        [board[2][0], board[1][1], board[0][2]]]    # FIRST INEGER WRONG 1,0 1,1 1,2
+        [board[0][0], board[1][1], board[2][2]],   
+        [board[2][0], board[1][1], board[0][2]]]
 
     # Horizontal check.
 
@@ -255,7 +255,6 @@ def tictactoe_game_ai():
         if player == "O":
             row, col = get_move(board)
             mark(board, player, row, col)
-            print_board(board)
             winner = player
 
         if has_won(board, player):
@@ -275,7 +274,7 @@ def main_menu():
         print(" Welcome to 3x3 Tic Tac Toe HUMAN-AI! ")
         print("########################################")
         tictactoe_game_ai()
-        
+
     else:
         print("\n########################################")
         print(" Welcome to 3x3 Tic Tac Toe HUMAN-HUMAN! ")
