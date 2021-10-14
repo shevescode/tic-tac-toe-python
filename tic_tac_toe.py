@@ -25,42 +25,91 @@ def get_move(board):
             print('Please provide valid coordinates!')
             continue
 
+def scan_for_best_move(board, player_sign, enemy_sign):
+    
+    
+    empty_field_index = None
+
+    vertical_check = [
+        [board[0][0], board[1][0], board[2][0]],
+        [board[0][1], board[1][1], board[2][1]],
+        [board[0][2], board[1][2], board[2][2]]]
+
+    diagonal_check = [
+        [board[0][0], board[1][1], board[2][2]],    # FIRST INEGER WRONG 0,0 0,1 0,2
+        [board[2][0], board[1][1], board[0][2]]]    # FIRST INEGER WRONG 1,0 1,1 1,2
+
+    for row in (board):
+        count = 0
+        for i in range(len(row)):
+            field = row[i]
+            if field == player_sign:
+                count += 1
+            elif field == enemy_sign:
+                count -= 1
+            else:
+                empty_field_index = i
+        if count == 2 or count == -2:
+            print("winning or losing chance horizontal")
+            return board.index(row), empty_field_index
+
+    for col in (vertical_check):
+        count = 0  
+        for i in range(len(col)):
+            field = col[i]
+            if field == player_sign:
+                count += 1
+            elif field == enemy_sign:
+                count -= 1
+            else:
+                empty_field_index = i
+        if count == 2 or count == -2:
+            print("winning or losing chance vertical")
+            return empty_field_index, vertical_check.index(col)
+
+    for dia in (diagonal_check):
+        count = 0
+        for i in range(len(dia)):     
+            field = dia[i]
+            if field == player_sign:
+                count += 1
+            elif field == enemy_sign:
+                count -= 1
+            else:
+                empty_field_index = i
+        if count == 2 or count == -2:
+            if diagonal_check.index(dia) == 0 and empty_field_index == 0:
+                return 0, 0
+            elif diagonal_check.index(dia) == 0 and empty_field_index == 1:
+                return 1, 1
+            elif diagonal_check.index(dia) == 0 and empty_field_index == 2:
+                return 2, 2
+            elif diagonal_check.index(dia) == 1 and empty_field_index == 0:
+                return 2, 0
+            elif diagonal_check.index(dia) == 1 and empty_field_index == 1:
+                return 1, 1
+            elif diagonal_check.index(dia) == 1 and empty_field_index == 2:
+                return 0, 2
+
+    row, col = 0, 0
+    while True:
+        row = random.randint(0, 2)
+        col = random.randint(0, 2)
+        if board[row][col] == ".":
+            return row, col
+        else:
+            continue
 
 def get_ai_move(board):
     """Returns the coordinates of a valid move for player on board."""
-    row, col = 0, 0
+    
+    player_sign = "X"
+    enemy_sign = "O"
     if board[1][1] == ".":
         row, col = 1, 1
         return row, col
     else:
-        while True:
-            row = random.randint(0, 2)
-            col = random.randint(0, 2)
-            if board[row][col] == ".":
-                return row, col
-            else:
-                continue
-
-
-def scan_row(player_sign, enemy_sign, row):
-    count = 0
-    empty_field_index = None
-    for i in range(len(row)):
-        field = row[i]
-        if field == player_sign:
-            count += 1
-        elif field == enemy_sign:
-            return None
-        else:
-            empty_field_index = i
-    if count == 2:
-        return empty_field_index
-    else:
-        return None
-# scan for winning chance for O
-print(scan_row("O", "X", ["O","O","."]))
-
-print(scan_row("X", "O", ["O","O","."]))
+        return scan_for_best_move(board, player_sign, enemy_sign)
 
 
 def mark(board, player, row, col):
@@ -75,8 +124,8 @@ def has_won(board, player):
     
     vertical_check = [
         [board[0][0], board[1][0], board[2][0]],
-        [board[0][0], board[1][0], board[2][0]],
-        [board[0][0], board[1][0], board[2][0]]]
+        [board[0][1], board[1][1], board[2][1]],
+        [board[0][2], board[1][2], board[2][2]]]
 
     diagonal_check = [
         [board[0][0], board[1][1], board[2][2]],
