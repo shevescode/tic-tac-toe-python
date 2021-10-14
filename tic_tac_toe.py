@@ -1,9 +1,10 @@
 import sys
 import random
 
+# Returns the coordinates of a valid move for player on board
+
 def get_move(board):
-    # ask for user input and returs as 2 integers
-    """Returns the coordinates of a valid move for player on board."""
+
     while True:
         print('What is your next move?')
         user_move = input()
@@ -11,23 +12,27 @@ def get_move(board):
         col = user_move[1]
         rows = ["A","B","C"]
         cols = ["1","2","3"]
+
         if user_move == 'quit':
             exit()
+
         if row in rows and col in cols:
             row = rows.index(row)
             col = cols.index(col)
         else:
             print('Please provide valid coordinates!')
             continue
+
         if board[row][col] == ".":
             return row, col
         else:
             print('Please provide valid coordinates!')
             continue
 
-def scan_for_best_move(board, player_sign, enemy_sign):
-    
-    
+# Returns the coordinates of the best move for AI on board
+
+def scan_for_best_move(board, player_sign, enemy_sign):  
+
     empty_field_index = None
 
     vertical_check = [
@@ -38,6 +43,8 @@ def scan_for_best_move(board, player_sign, enemy_sign):
     diagonal_check = [
         [board[0][0], board[1][1], board[2][2]],    # FIRST INEGER WRONG 0,0 0,1 0,2
         [board[2][0], board[1][1], board[0][2]]]    # FIRST INEGER WRONG 1,0 1,1 1,2
+
+    # Horizontal check.
 
     for row in (board):
         count = 0
@@ -53,6 +60,8 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             print("winning or losing chance horizontal")
             return board.index(row), empty_field_index
 
+    # Vertical check.
+
     for col in (vertical_check):
         count = 0  
         for i in range(len(col)):
@@ -66,6 +75,8 @@ def scan_for_best_move(board, player_sign, enemy_sign):
         if count == 2 or count == -2:
             print("winning or losing chance vertical")
             return empty_field_index, vertical_check.index(col)
+
+    # Diagonal check.
 
     for dia in (diagonal_check):
         count = 0
@@ -100,9 +111,10 @@ def scan_for_best_move(board, player_sign, enemy_sign):
         else:
             continue
 
+# Returns best possible move for AI.
+
 def get_ai_move(board):
-    """Returns the coordinates of a valid move for player on board."""
-    
+
     player_sign = "X"
     enemy_sign = "O"
     if board[1][1] == ".":
@@ -111,16 +123,17 @@ def get_ai_move(board):
     else:
         return scan_for_best_move(board, player_sign, enemy_sign)
 
+# Marks the element at row & col on the board for player.
 
 def mark(board, player, row, col):
-    """Marks the element at row & col on the board for player."""
+    
     if board[row][col] == ".":
         board[row][col] = player
     return board
 
+# Returns True if player has won the game.
 
 def has_won(board, player):
-    """Returns True if player has won the game."""
     
     vertical_check = [
         [board[0][0], board[1][0], board[2][0]],
@@ -131,7 +144,7 @@ def has_won(board, player):
         [board[0][0], board[1][1], board[2][2]],
         [board[0][2], board[1][1], board[2][0]]]
 
-    # horizontal check
+    # Horizontal check.
 
     for row in board:
         has_row_won = True
@@ -142,7 +155,7 @@ def has_won(board, player):
         if has_row_won:
             return True
 
-    # vertical check
+    # Vertical check.
 
     for col in vertical_check:
         has_col_won = True
@@ -153,7 +166,7 @@ def has_won(board, player):
         if has_col_won:
             return True
 
-    # diagonal check
+    # Diagonal check.
     
     for dia in diagonal_check:
         has_dia_won = True
@@ -164,17 +177,18 @@ def has_won(board, player):
         if has_dia_won:
             return True
 
+# Returns True if board is full.
 
 def is_full(board):
-    """Returns True if board is full."""
+   
     if not '.' in board[0] and not '.' in board[1] and not '.' in board[2]:
         return True
     else:
         return False
 
+# Prints a 3-by-3 board on the screen with borders.
 
 def print_board(board):
-    """Prints a 3-by-3 board on the screen with borders."""
     print("\n    1   2   3")
     print("A   " + board[0][0] + " | " + board[0][1] + " | " + board[0][2])
     print("   ---+---+---")
@@ -182,11 +196,12 @@ def print_board(board):
     print("   ---+---+---")
     print("C   " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + "\n")
 
+# Congratulates winner.
 
 def print_result(winner):
-    """Congratulates winner or proclaims tie (if winner equals zero)."""
     print(f'Congratulations! Player {winner} has won!')
 
+# Runs 2-player game.
 
 def tictactoe_game_human():
     board = [ 
@@ -209,22 +224,31 @@ def tictactoe_game_human():
         else:
             player = "X"
 
+# Runs 1-player game against AI.
+
 def tictactoe_game_ai():
+
     board = [ 
         [ '.','.','.' ],
         [ '.','.','.' ],
         [ '.','.','.' ] ]
+
     player = "X"
+
     while True:
+
         if player == "X":
             row, col = get_ai_move(board)
             mark(board, player, row, col)
             print_board(board)
             winner = player
+        
         if has_won(board, player):
             return print_result(winner)
+
         if is_full(board):
             return print("No winner! It is a tie!")
+
         player = "O"
 
 
@@ -233,25 +257,32 @@ def tictactoe_game_ai():
             mark(board, player, row, col)
             print_board(board)
             winner = player
+
         if has_won(board, player):
             return print_result(winner)
+
         if is_full(board):
             return print("No winner! It is a tie!")
+
         player = "X"
 
 
 
 def main_menu():
+
     if len(sys.argv) > 1 and sys.argv[1] == "HUMAN-AI":
         print("\n########################################")
         print(" Welcome to 3x3 Tic Tac Toe HUMAN-AI! ")
         print("########################################")
         tictactoe_game_ai()
+        
     else:
         print("\n########################################")
         print(" Welcome to 3x3 Tic Tac Toe HUMAN-HUMAN! ")
         print("########################################")
         tictactoe_game_human()
+
+
 
 if __name__ == '__main__':
     main_menu()
