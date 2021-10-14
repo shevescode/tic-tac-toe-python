@@ -26,7 +26,7 @@ def get_move(board):
         if board[row][col] == ".":
             return row, col
         else:
-            print('Please provide valid coordinates!')
+            print('Already occupied cell!')
             continue
 
 # Returns the coordinates of the best move for AI on board
@@ -57,7 +57,6 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             else:
                 empty_field_index = i
         if count == 2 or count == -2:
-            print("winning or losing chance horizontal")
             return board.index(row), empty_field_index
 
     # Vertical check.
@@ -73,7 +72,6 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             else:
                 empty_field_index = i
         if count == 2 or count == -2:
-            print("winning or losing chance vertical")
             return empty_field_index, vertical_check.index(col)
 
     # Diagonal check.
@@ -204,21 +202,28 @@ def print_result(winner):
 # Runs 2-player game.
 
 def tictactoe_game_human():
+
     board = [ 
         [ '.','.','.' ],
         [ '.','.','.' ],
         [ '.','.','.' ] ]
+
     print_board(board)
     player = "X"
+
     while True:
+
         row, col = get_move(board)
         mark(board, player, row, col)
         print_board(board)
         winner = player
+
         if has_won(board, player):
             return print_result(winner)
+
         if is_full(board):
             return print("No winner! It is a tie!")
+
         if player == "X":
             player = "O"
         else:
