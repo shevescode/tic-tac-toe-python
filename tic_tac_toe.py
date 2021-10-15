@@ -2,7 +2,6 @@ import sys
 import random
 
 # Returns the coordinates of a valid move for player on board
-
 def get_move(board):
 
     while True:
@@ -30,7 +29,6 @@ def get_move(board):
             continue
 
 # Returns the coordinates of the best move for AI on board
-
 def scan_for_best_move(board, player_sign, enemy_sign):  
 
     empty_field_index = None
@@ -45,7 +43,6 @@ def scan_for_best_move(board, player_sign, enemy_sign):
         [board[2][0], board[1][1], board[0][2]]]
 
     # Horizontal check.
-
     for row in (board):
         count = 0
         for i in range(len(row)):
@@ -60,7 +57,6 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             return board.index(row), empty_field_index
 
     # Vertical check.
-
     for col in (vertical_check):
         count = 0  
         for i in range(len(col)):
@@ -75,7 +71,6 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             return empty_field_index, vertical_check.index(col)
 
     # Diagonal check.
-
     for dia in (diagonal_check):
         count = 0
         for i in range(len(dia)):     
@@ -87,18 +82,13 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             else:
                 empty_field_index = i
         if count == 2 or count == -2:
-            if diagonal_check.index(dia) == 0 and empty_field_index == 0:
-                return 0, 0
-            elif diagonal_check.index(dia) == 0 and empty_field_index == 1:
-                return 1, 1
-            elif diagonal_check.index(dia) == 0 and empty_field_index == 2:
-                return 2, 2
-            elif diagonal_check.index(dia) == 1 and empty_field_index == 0:
-                return 2, 0
-            elif diagonal_check.index(dia) == 1 and empty_field_index == 1:
-                return 1, 1
-            elif diagonal_check.index(dia) == 1 and empty_field_index == 2:
-                return 0, 2
+            for i in range(3):
+                if empty_field_index == i:
+                    diagonal_index = diagonal_check.index(dia)
+                    if diagonal_index == 0:
+                        return i, i
+                    elif diagonal_index == 1:
+                        return 2 - i, i
 
     row, col = 0, 0
     while True:
@@ -110,27 +100,20 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             continue
 
 # Returns best possible move for AI.
-
 def get_ai_move(board):
 
     player_sign = "X"
     enemy_sign = "O"
-    if board[1][1] == ".":
-        row, col = 1, 1
-        return row, col
-    else:
-        return scan_for_best_move(board, player_sign, enemy_sign)
+    return scan_for_best_move(board, player_sign, enemy_sign)
 
 # Marks the element at row & col on the board for player.
-
 def mark(board, player, row, col):
-    
+
     if board[row][col] == ".":
         board[row][col] = player
     return board
 
 # Returns True if player has won the game.
-
 def has_won(board, player):
     
     vertical_check = [
@@ -143,7 +126,6 @@ def has_won(board, player):
         [board[0][2], board[1][1], board[2][0]]]
 
     # Horizontal check.
-
     for row in board:
         has_row_won = True
         for field in row:
@@ -154,7 +136,6 @@ def has_won(board, player):
             return True
 
     # Vertical check.
-
     for col in vertical_check:
         has_col_won = True
         for field in col:
@@ -165,7 +146,6 @@ def has_won(board, player):
             return True
 
     # Diagonal check.
-    
     for dia in diagonal_check:
         has_dia_won = True
         for field in dia:
@@ -176,16 +156,11 @@ def has_won(board, player):
             return True
 
 # Returns True if board is full.
-
 def is_full(board):
    
-    if not '.' in board[0] and not '.' in board[1] and not '.' in board[2]:
-        return True
-    else:
-        return False
+    return not '.' in board[0] and not '.' in board[1] and not '.' in board[2]
 
 # Prints a 3-by-3 board on the screen with borders.
-
 def print_board(board):
     print("\n    1   2   3")
     print("A   " + board[0][0] + " | " + board[0][1] + " | " + board[0][2])
@@ -195,12 +170,10 @@ def print_board(board):
     print("C   " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + "\n")
 
 # Congratulates winner.
-
 def print_result(winner):
     print(f'Congratulations! Player {winner} has won!')
 
 # Runs 2-player game.
-
 def tictactoe_game_human():
 
     board = [ 
@@ -230,7 +203,6 @@ def tictactoe_game_human():
             player = "X"
 
 # Runs 1-player game against AI.
-
 def tictactoe_game_ai():
 
     board = [ 
