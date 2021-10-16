@@ -5,8 +5,9 @@ import random
 def get_move(board, player):
 
     while True:
-        user_move = input(f"\nGive your coordinates!, {player}: ")
-        row = user_move[0]
+        user_move = input(f"\nGive your coordinates!, {player}: ").upper()
+        # fixme
+        row = user_move[0] 
         col = user_move[1]
         rows = ["A","B","C"]
         cols = ["1","2","3"]
@@ -42,7 +43,7 @@ def scan_for_best_move(board, player_sign, enemy_sign):
         [board[2][0], board[1][1], board[0][2]]]
 
     # Horizontal check.
-    for row in (board):
+    for row in board:
         count = 0
         for i in range(len(row)):
             field = row[i]
@@ -56,7 +57,7 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             return board.index(row), empty_field_index
 
     # Vertical check.
-    for col in (vertical_check):
+    for col in vertical_check:
         count = 0  
         for i in range(len(col)):
             field = col[i]
@@ -70,7 +71,7 @@ def scan_for_best_move(board, player_sign, enemy_sign):
             return empty_field_index, vertical_check.index(col)
 
     # Diagonal check.
-    for dia in (diagonal_check):
+    for dia in diagonal_check:
         count = 0
         for i in range(len(dia)):     
             field = dia[i]
@@ -156,7 +157,6 @@ def has_won(board, player):
 
 # Returns True if board is full.
 def is_full(board):
-   
     return not '.' in board[0] and not '.' in board[1] and not '.' in board[2]
 
 # Prints a 3-by-3 board on the screen with borders.
@@ -226,7 +226,6 @@ def tictactoe_game_ai():
             return print("No winner! It is a tie!")
 
         player = "O"
-
 
         if player == "O":
             row, col = get_move(board, player)
