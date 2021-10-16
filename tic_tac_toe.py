@@ -2,11 +2,10 @@ import sys
 import random
 
 # Returns the coordinates of a valid move for player on board
-def get_move(board):
+def get_move(board, player):
 
     while True:
-        print('What is your next move?')
-        user_move = input()
+        user_move = input(f"\nGive your coordinates!, {player}: ")
         row = user_move[0]
         col = user_move[1]
         rows = ["A","B","C"]
@@ -186,7 +185,7 @@ def tictactoe_game_human():
 
     while True:
 
-        row, col = get_move(board)
+        row, col = get_move(board, player)
         mark(board, player, row, col)
         print_board(board)
         winner = player
@@ -230,7 +229,7 @@ def tictactoe_game_ai():
 
 
         if player == "O":
-            row, col = get_move(board)
+            row, col = get_move(board, player)
             mark(board, player, row, col)
             winner = player
 
