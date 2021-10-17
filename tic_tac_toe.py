@@ -1,5 +1,7 @@
 import sys
 import random
+import os
+
 
 # Returns the coordinates of a valid move for player on board
 def get_move(board, player):
@@ -184,8 +186,9 @@ def tictactoe_game_human():
     player = "X"
 
     while True:
-
+        
         row, col = get_move(board, player)
+        cls()
         mark(board, player, row, col)
         print_board(board)
         winner = player
@@ -201,6 +204,9 @@ def tictactoe_game_human():
         else:
             player = "X"
 
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
+
 # Runs 1-player game against AI.
 def tictactoe_game_ai():
 
@@ -212,9 +218,9 @@ def tictactoe_game_ai():
     player = "X"
 
     while True:
-
         if player == "X":
             row, col = get_ai_move(board)
+            cls()
             mark(board, player, row, col)
             print_board(board)
             winner = player
